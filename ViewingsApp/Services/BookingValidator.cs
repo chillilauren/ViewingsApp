@@ -14,8 +14,8 @@ namespace ViewingsApp.Services
     {
         public BookingValidation ValidateBooking(BookingRequest bookingRequest, IEnumerable<Agent> allAgents, IEnumerable<Property> allProperties)
         {
-            // If Name in bookingRequest is empty IsValid becomes false
-            if (bookingRequest.Name == "")
+
+            if (isNameInvalid(bookingRequest))
             {
                 return new BookingValidation
                 {
@@ -23,13 +23,35 @@ namespace ViewingsApp.Services
                     ErrorMessage = "You must provide a name."
                 };
             }
-            // If Name is not empty
+          
+            if (isEmailInvalid(bookingRequest))
+            {
+                return new BookingValidation
+                {
+                    IsValid = false,
+                    ErrorMessage = "You must provide an email address."
+                };
+            }
+
             return new BookingValidation
             {
                 IsValid = true,
                 ErrorMessage = ""
             };
-            
         }
+
+        // Method to check if name is missing
+        private bool isNameInvalid(BookingRequest bookingRequest)
+        {
+            return bookingRequest.Name == "";  
+        }
+
+        // Method to check if email is missing
+        private bool isEmailInvalid(BookingRequest bookingRequest)
+        {
+            return bookingRequest.EmailAddress == "";  
+        }
+
+
     }
 }

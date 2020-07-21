@@ -80,7 +80,40 @@ namespace ViewingsApp.Tests
 
             // Assert
             bookingValidation.IsValid.Should().BeFalse();
-            bookingValidation.ErrorMessage.Should().Be("You must provide a name");
+            bookingValidation.ErrorMessage.Should().Be("You must provide a name.");
         }
+
+        // Check email is not missing (and valid)
+        [Test]
+        public void ShouldFailIfEmailMissing()
+        {
+            // Arrange
+            var bookingRequest = new BookingRequest
+            {
+                AgentId  = 1,
+                PropertyId = 3,
+                Name = "Jane Doe",
+                EmailAddress = "",
+                StartsAt = DateTime.Now.AddHours(2),
+                EndsAt = DateTime.Now.AddHours(3),
+                PhoneNumber = "0300 547 873"
+            };
+            var bookingValidator = new BookingValidator();
+
+            // Act
+            var bookingValidation = bookingValidator.ValidateBooking(bookingRequest, _agents, _properties);
+
+            // Assert
+            bookingValidation.IsValid.Should().BeFalse();
+            bookingValidation.ErrorMessage.Should().Be("You must provide an email address.");
+
+        }
+
+        // Checkphone number is not missing (and valid)
+        
+
+        // Check AgentID matches a real agent
+
+        // Check that PropertyID matches a real property
     }
 }
