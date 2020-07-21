@@ -33,6 +33,15 @@ namespace ViewingsApp.Services
                 };
             }
 
+            if (isPhoneNumberInvalid(bookingRequest))
+            {
+                return new BookingValidation
+                {
+                    IsValid = false,
+                    ErrorMessage = "You must provide a phone number."
+                };
+            }
+
             return new BookingValidation
             {
                 IsValid = true,
@@ -50,6 +59,12 @@ namespace ViewingsApp.Services
         private bool isEmailInvalid(BookingRequest bookingRequest)
         {
             return bookingRequest.EmailAddress == "";  
+        }
+
+        // Method to check if phone number is missing
+        private bool isPhoneNumberInvalid(BookingRequest bookingRequest)
+        {
+            return bookingRequest.PhoneNumber == "";  
         }
 
 

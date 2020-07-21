@@ -110,7 +110,30 @@ namespace ViewingsApp.Tests
         }
 
         // Checkphone number is not missing (and valid)
-        
+        [Test]
+        public void ShouldFailIfPhoneNumberMissing()
+        {
+            // Arrange
+            var bookingRequest = new BookingRequest
+            {
+                AgentId  = 1,
+                PropertyId = 3,
+                Name = "Jane Doe",
+                EmailAddress = "janedoe@email.com",
+                StartsAt = DateTime.Now.AddHours(2),
+                EndsAt = DateTime.Now.AddHours(3),
+                PhoneNumber = ""
+            };
+            var bookingValidator = new BookingValidator();
+
+            // Act
+            var bookingValidation = bookingValidator.ValidateBooking(bookingRequest, _agents, _properties);
+
+            // Assert
+            bookingValidation.IsValid.Should().BeFalse();
+            bookingValidation.ErrorMessage.Should().Be("You must provide a phone number.");
+
+        }
 
         // Check AgentID matches a real agent
 
